@@ -10,7 +10,7 @@ from datetime import timedelta
 from subprocess import Popen, PIPE
 
 #監視周期
-INTERVAL = timedelta(seconds=3600);
+INTERVAL = timedelta(seconds=10);
 
 #data.txtから起動時につぶやきたいゲームのタスク名を取得
 def gamelist():
@@ -30,7 +30,7 @@ def main():
     cmd = "tasklist";
     previous = datetime.now();
     games = gamelist();
-    hour = -1;
+    hour = [-1] * len(games);
     first = True; #起動時に実行する用
     
     while True:
@@ -43,11 +43,13 @@ def main():
                 p1 = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE);
                 for line in p1.stdout.readlines():
                     if re.search(games[i], line.decode("shift-jis")) and not check :
-                        hour = hour + 1;
-                        tweet = "I'm playing " + games[i] + " (" + str(hour) + "時間目)";
+                        hour[i] = hour[i] + 1;
+                        tweet = "I'm playing " + games[i] + " (" + str(hour[i]) + "時間目)";
                         #print(tweet);
                         check = True;
                         t.statuses.update(status=tweet);
+                if not check :
+                    hour[i] = -1;
 
 
 if __name__ == "__main__":
