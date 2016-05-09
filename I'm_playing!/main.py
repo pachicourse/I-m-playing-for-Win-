@@ -10,7 +10,7 @@ from datetime import timedelta
 from subprocess import Popen, PIPE
 
 #監視周期
-INTERVAL = timedelta(seconds=10);
+INTERVAL = timedelta(seconds=3600);
 
 #data.txtから起動時につぶやきたいゲームのタスク名を取得
 def gamelist():
