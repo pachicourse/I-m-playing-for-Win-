@@ -12,10 +12,13 @@ from subprocess import Popen, PIPE
 #監視周期
 INTERVAL = timedelta(seconds=3600);
 
+TASKFILE = "./task.txt";
+NAMEFILE = "./name.txt";
+
 #data.txtから起動時につぶやきたいゲームのタスク名を取得
-def gamelist():
+def gamelist(datapass):
     gamenames = [];
-    data = open("./data.txt");
+    data = open(datapass);
     for s in data:
         s = s.replace("\n", "");
         gamenames.append(s);
@@ -26,11 +29,12 @@ def main():
     with open("secret.json") as f:
         secretjson = json.load(f);
     t = Twitter(auth=OAuth(secretjson["access_token"], secretjson["access_token_secret"], secretjson["consumer_key"], secretjson["consumer_secret"]));
-    
+
     cmd = "tasklist";
     previous = datetime.now();
-    games = gamelist();
-    hour = [-1] * len(games);
+    tasks = gamelist(TASKFILE);
+    games = gamelist(NAMEFILE);
+    hour = [-1] * len(tasks);
     first = True; #起動時に実行する用
     
     while True:
@@ -38,11 +42,11 @@ def main():
             first = False;
             previous = datetime.now();
             #print("done");
-            for i in range(0, len(games)):
+            for i in range(0, len(tasks)):
                 check = False;
                 p1 = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE);
                 for line in p1.stdout.readlines():
-                    if re.search(games[i], line.decode("shift-jis")) and not check :
+                    if re.search(tasks[i], line.decode("shift-jis")) and not check :
                         hour[i] = hour[i] + 1;
                         tweet = "I'm playing " + games[i] + " (" + str(hour[i]) + "時間目)";
                         #print(tweet);
