@@ -7,7 +7,7 @@ tasklistさんにお願いしてその結果をチェック、task.txtにあら�
 task.txtに検出したいタスク名、name.txtに呟きたい内容を入れておきます。
 
 task.txtに入れるタスク名は、xx.exeだったらxxの部分です。タスクマネージャからプロセスのプロパティを見て確認してください。
-(ex:Grand Theft Auto Vだったら、GTA5.exeとなるので、data.txtにはGTA5と書き込む)
+(ex:Grand Theft Auto Vだったら、GTA5.exeとなるので、task.txtにはGTA5と書き込む)
 
 name.txtに入れる内容は、task.txtに入力したタスク名と順序が対応づけられるようにしてください。
 私がアップロードしたtask.txtとname.txtを見るのが手っ取り早いでしょう。
